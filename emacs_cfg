@@ -1,0 +1,73 @@
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+  (package-initialize))
+
+;ML REPL
+(setenv "PATH" (concat "/usr/local/smlnj/bin:" (getenv "PATH")))
+(setq exec-path (cons "/usr/local/smlnj/bin"  exec-path))
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+;use helm instead of ido
+;(require 'ido)
+;(ido-mode t)
+
+(global-linum-mode t)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(custom-enabled-themes (quote (tango-dark)))
+ '(imenu-list-position (quote left))
+ '(imenu-list-size 0.2)
+ '(minimap-always-recenter t)
+ '(minimap-mode t)
+ '(minimap-window-location (quote right)))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(imenu-list-entry-face-0 ((t (:inherit imenu-list-entry-face :foreground "DeepSkyBlue1"))))
+ '(linum ((t (:inherit (shadow default) :background "dark cyan" :foreground "black")))))
+
+;;change default frame size
+(add-to-list 'default-frame-alist '(height . 60))
+(add-to-list 'default-frame-alist '(width . 160))
+
+;;tabbar
+(setq tabbar-ruler-global-tabbar t)
+(require 'tabbar-ruler)
+
+;;helm
+(require 'helm)
+(require 'helm-config)
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "M-x") 'helm-M-x)
+
+;highlight modes
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#3e4446")
+(set-face-foreground 'highlight nil)
+
+;enable paren mode
+(show-paren-mode 1)
+
+;auto complete mode
+;(add-hook 'after-init-hook 'global-company-mode)
+(require 'auto-complete)
+(require 'auto-complete-config)
+(ac-config-default)
+
+;yasnippet
+(require 'yasnippet)
+(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
+(add-to-list 'yas-snippet-dirs "˜/.emacs.d/plugins/yasnippet-snippets")
+;(require 'yasnippet)
+(yas-global-mode 1)
