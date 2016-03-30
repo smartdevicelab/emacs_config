@@ -1,6 +1,17 @@
 ;hide welcome screen
 (setq inhibit-startup-message t)
 
+;to make flyspell happy
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+(setq exec-path (append exec-path '("/usr/local/bin")))
+(dolist (hook '(text-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))))
+(dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode -1))))
+(eval-after-load "flyspell"
+  '(define-key flyspell-mode-map (kbd "C-;") #'flyspell-popup-correct))
+;(add-hook 'flyspell-mode-hook #'flyspell-popup-auto-correct-mode)
+
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
